@@ -11,4 +11,12 @@ repositories {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt
+    compile group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '8.19'
+
+    // https://mvnrepository.com/artifact/com.google.crypto.tink/tink
+    compile group: 'com.google.crypto.tink', name: 'tink', version: '1.4.0-rc2'
+
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.66'
 }
