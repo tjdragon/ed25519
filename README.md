@@ -1,2 +1,3 @@
-# ed25519
-ed25519
+# JWS & Ed25519
+
+Supporting Ed25519 and JWS
