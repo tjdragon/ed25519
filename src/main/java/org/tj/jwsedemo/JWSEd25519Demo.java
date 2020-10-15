@@ -59,7 +59,9 @@ public class JWSEd25519Demo {
         log("jws: " + jws);
 
         // Verification
-        final JWSVerifier verifier = new Ed25519Verifier(octetKeyPairJWK.toPublicJWK());
+        final OctetKeyPair publicJWK = new OctetKeyPair.Builder(Curve.Ed25519, new Base64URL(x)).build().toPublicJWK(); // Only uses the public component
+        log("publicJWK: " + publicJWK);
+        final JWSVerifier verifier = new Ed25519Verifier(publicJWK);
         assert jwsObject.verify(verifier);
         assert "Edwards, what have you done?".equals(jwsObject.getPayload().toString());
     }
