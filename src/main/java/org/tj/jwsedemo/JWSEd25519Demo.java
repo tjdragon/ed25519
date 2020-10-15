@@ -6,6 +6,10 @@ import com.nimbusds.jose.crypto.Ed25519Verifier;
 import com.nimbusds.jose.jwk.Curve;
 import com.nimbusds.jose.jwk.OctetKeyPair;
 import com.nimbusds.jose.util.Base64URL;
+import org.apache.commons.codec.binary.Hex;
+import org.bouncycastle.asn1.edec.EdECObjectIdentifiers;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.generators.Ed25519KeyPairGenerator;
 import org.bouncycastle.crypto.params.Ed25519KeyGenerationParameters;
@@ -13,8 +17,10 @@ import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import java.security.SecureRandom;
-import java.security.Security;
+import java.io.IOException;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 public class JWSEd25519Demo {
@@ -22,7 +28,7 @@ public class JWSEd25519Demo {
         System.out.println("" + o);
     }
 
-    public static void main(String[] args) throws JOSEException {
+    public static void main(String[] args) throws JOSEException, NoSuchAlgorithmException, IOException, InvalidKeySpecException {
         log("JWS Ed25519 Demo");
 
         // Generate Key Pair Using BC
@@ -61,8 +67,19 @@ public class JWSEd25519Demo {
         // Verification
         final OctetKeyPair publicJWK = new OctetKeyPair.Builder(Curve.Ed25519, new Base64URL(x)).build().toPublicJWK(); // Only uses the public component
         log("publicJWK: " + publicJWK);
+        logEDPublicKeyAsX509(x);
         final JWSVerifier verifier = new Ed25519Verifier(publicJWK);
         assert jwsObject.verify(verifier);
         assert "Edwards, what have you done?".equals(jwsObject.getPayload().toString());
+    }
+
+    private static void logEDPublicKeyAsX509(final String x) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
+        final byte[] publicKeyBytes = Base64.getUrlDecoder().decode(x);
+        final KeyFactory keyFactory = KeyFactory.getInstance("Ed25519");
+        final SubjectPublicKeyInfo pubKeyInfo = new SubjectPublicKeyInfo(new AlgorithmIdentifier(EdECObjectIdentifiers.id_Ed25519), publicKeyBytes);
+        final X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(pubKeyInfo.getEncoded());
+        final PublicKey publicKey = keyFactory.generatePublic(x509KeySpec);
+        final String encodedHEXPubKey = Hex.encodeHexString(publicKey.getEncoded());
+        System.out.println("encodedHEXPubKey: " + encodedHEXPubKey);
     }
 }
