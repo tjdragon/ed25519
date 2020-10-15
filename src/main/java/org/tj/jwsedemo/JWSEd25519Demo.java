@@ -47,7 +47,7 @@ public class JWSEd25519Demo {
 
         // Signing and creation of JWS
         final JWSSigner signer = new Ed25519Signer(octetKeyPairJWK);
-        final String payload = "Edward, what have you done?";
+        final String payload = "Edwards, what have you done?";
 
         final JWSObject jwsObject = new JWSObject(
                 new JWSHeader.Builder(JWSAlgorithm.EdDSA).keyID(octetKeyPairJWK.getKeyID()).build(),
@@ -61,6 +61,6 @@ public class JWSEd25519Demo {
         // Verification
         final JWSVerifier verifier = new Ed25519Verifier(octetKeyPairJWK.toPublicJWK());
         assert jwsObject.verify(verifier);
-        assert "Edward, what have you done?".equals(jwsObject.getPayload().toString());
+        assert "Edwards, what have you done?".equals(jwsObject.getPayload().toString());
     }
 }
