@@ -75,11 +75,11 @@ public class JWSEd25519Demo {
 
     private static void logEDPublicKeyAsX509(final String x) throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
         final byte[] publicKeyBytes = Base64.getUrlDecoder().decode(x);
-        final KeyFactory keyFactory = KeyFactory.getInstance("Ed25519");
-        final SubjectPublicKeyInfo pubKeyInfo = new SubjectPublicKeyInfo(new AlgorithmIdentifier(EdECObjectIdentifiers.id_Ed25519), publicKeyBytes);
-        final X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(pubKeyInfo.getEncoded());
-        final PublicKey publicKey = keyFactory.generatePublic(x509KeySpec);
-        final String encodedHEXPubKey = Hex.encodeHexString(publicKey.getEncoded());
+//        final KeyFactory keyFactory = KeyFactory.getInstance("Ed25519");
+//        final SubjectPublicKeyInfo pubKeyInfo = new SubjectPublicKeyInfo(new AlgorithmIdentifier(EdECObjectIdentifiers.id_Ed25519), publicKeyBytes);
+//        final X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(pubKeyInfo.getEncoded());
+//        final PublicKey publicKey = keyFactory.generatePublic(x509KeySpec);
+        final String encodedHEXPubKey = Hex.encodeHexString(publicKeyBytes);
         System.out.println("encodedHEXPubKey: " + encodedHEXPubKey);
     }
 }
