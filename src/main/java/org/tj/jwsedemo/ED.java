@@ -13,5 +13,12 @@ public class ED {
 
         final EdECPublicKey pk = (EdECPublicKey)kp.getPublic();
         System.out.println(pk);
+
+//        KeyFactory kf = KeyFactory.getInstance("EdDSA");
+//        boolean xOdd = ...
+//        BigInteger y = ...
+//        NamedParameterSpec paramSpec = new NamedParameterSpec("Ed25519");
+//        EdECPublicKeySpec pubSpec = new EdECPublicKeySpec(paramSpec, new EdPoint(xOdd, y));
+//        PublicKey pubKey = kf.generatePublic(pubSpec);
     }
 }
